@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <style>
+        *{
+            font-family: 'Roboto', sans-serif;
+            color: white;
+            text-align: center;
+        }
+        body{
+            background-color: black;
+        }
+        #container{
+            /* border: 1px solid white; */
+            width: 80%;
+            margin: auto;
+            display: grid;
+            grid-template-columns: repeat(4, 23%);
+            grid-gap : 2%;
+        }
+
+        #heading{
+            height: 50px;
+        }
+        img{
+            width: 100%;;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1 id='heading'> Trending Movies</h1>
+    </div>
+    <div id="container">
+
+
+    </div>
+</body>
+</html>
+
+<script>
+
+    let container = document.getElementById('container');
+
+    async function request(){
+
+       try{
+
+            let res = await fetch(`https://api.themoviedb.org/3/trending/all/day?api_key=17df8735c81ad6e67e666f0c1a252b46`)
+
+            // console.log(res);
+            let data =  await res.json();
+            console.log(data.results);
+            showMovies(data.results);
+       }
+       catch(e) {
+           
+            alert(e);
+       }
+
+    }
+
+    request();
+
+    function showMovies(movies){
+        
+        movies.forEach(function(movie){
+
+            let div = document.createElement('div');
+
+            let img_box = document.createElement('div');
+            let img = document.createElement('img');
+            img.src = 'https://www.themoviedb.org/t/p/w440_and_h660_face/' + movie.poster_path;
+            img.style.width = '100%';
+
+            img_box.append(img);
+
+            div.append(img_box);
+
+            container.append(div);
+
+        })
+    }
+</script>
